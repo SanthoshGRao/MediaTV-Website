@@ -55,16 +55,16 @@
   /* Glassmorphism Card */
   .glass-card {
     background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 16px;
   }
 
   .glass-card-hover {
     background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
     border: 1px solid rgba(255, 255, 255, 0.08);
     border-radius: 16px;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
@@ -73,9 +73,9 @@
   .glass-card-hover:hover {
     background: rgba(255, 255, 255, 0.06);
     border-color: rgba(245, 166, 35, 0.3);
-    box-shadow: 0 8px 32px rgba(245, 166, 35, 0.15),
+    box-shadow: 0 6px 20px rgba(245, 166, 35, 0.12),
                 0 0 0 1px rgba(245, 166, 35, 0.1);
-    transform: translateY(-4px);
+    transform: translateY(-2px);
   }
 
   /* Gradient Text */
@@ -288,4 +288,30 @@
   background: radial-gradient(circle, #F5A623, transparent);
   border-radius: 50%;
   pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+  }
+
+  .glass-card,
+  .glass-card-hover {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .glass-card-hover:hover,
+  .btn-gold:hover,
+  .btn-outline-gold:hover {
+    transform: none;
+  }
 }

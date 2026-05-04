@@ -21,12 +21,13 @@ export default function ScrollReveal({
   };
 
   const { x, y } = directions[direction] || directions.up;
+  const shouldReveal = once ? isInView : true;
 
   return (
     <motion.div
       ref={ref}
       initial={{ opacity: 0, x, y }}
-      animate={isInView ? { opacity: 1, x: 0, y: 0 } : { opacity: 0, x, y }}
+      animate={shouldReveal ? { opacity: 1, x: 0, y: 0 } : { opacity: 0, x, y }}
       transition={{
         duration,
         delay,
