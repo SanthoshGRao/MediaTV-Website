@@ -14,6 +14,7 @@ const navLinks = [
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [heroLogoVisible, setHeroLogoVisible] = useState(true);
   const location = useLocation();
 
   useEffect(() => {
@@ -38,6 +39,40 @@ export default function Navbar() {
     window.scrollTo(0, 0);
   }, [location]);
 
+  useEffect(() => {
+    if (location.pathname !== '/') {
+      setHeroLogoVisible(false);
+      return;
+    }
+
+    let observer;
+    let rafId;
+
+    const observeHeroLogo = () => {
+      const heroLogo = document.getElementById('home-hero-logo');
+      if (!heroLogo) {
+        rafId = window.requestAnimationFrame(observeHeroLogo);
+        return;
+      }
+
+      observer = new IntersectionObserver(
+        ([entry]) => {
+          setHeroLogoVisible(entry.isIntersecting);
+        },
+        { threshold: 0 }
+      );
+
+      observer.observe(heroLogo);
+    };
+
+    observeHeroLogo();
+
+    return () => {
+      if (rafId) window.cancelAnimationFrame(rafId);
+      if (observer) observer.disconnect();
+    };
+  }, [location.pathname]);
+
   return (
     <>
       <motion.nav
@@ -56,7 +91,7 @@ export default function Navbar() {
             <Link
               to="/"
               className={`flex items-center gap-3 group transition-all duration-500 ${
-                location.pathname === '/' && !scrolled
+                location.pathname === '/' && heroLogoVisible
                   ? 'opacity-0 -translate-x-4 pointer-events-none'
                   : 'opacity-100 translate-x-0'
               }`}
@@ -65,9 +100,11 @@ export default function Navbar() {
                 <img
                   src={`${import.meta.env.BASE_URL}images/logo.jpeg`}
                   alt="Media TV Logo"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover logo-image-sharp"
+                  loading="eager"
+                  fetchPriority="high"
+                  decoding="async"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
               </div>
               <div className="flex flex-col">
                 <span className="font-heading font-bold text-lg leading-tight tracking-wide gradient-text">

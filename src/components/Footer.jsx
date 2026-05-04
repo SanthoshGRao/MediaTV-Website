@@ -53,7 +53,9 @@ export default function Footer() {
                 <img
                   src={`${import.meta.env.BASE_URL}images/logo.jpeg`}
                   alt="Media TV"
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover logo-image-sharp"
+                  loading="lazy"
+                  decoding="async"
                 />
               </div>
               <div>

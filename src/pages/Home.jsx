@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
+import { motion, useScroll, useTransform, AnimatePresence, useReducedMotion } from 'framer-motion';
 import { Play, ChevronRight, Star, Quote, Users, MapPin, Tv, Radio, ArrowRight, Clock, Sparkles } from 'lucide-react';
 import ScrollReveal from '../components/ScrollReveal';
 import ProgramIcon from '../components/ProgramIcon';
@@ -20,6 +20,17 @@ const stats = [
   { value: '15+', label: 'Programs', icon: Tv },
 ];
 
+const heroBubbles = [
+  { left: '8%', size: 12, delay: '0s', duration: '8s' },
+  { left: '16%', size: 18, delay: '2s', duration: '10s' },
+  { left: '28%', size: 10, delay: '1s', duration: '9s' },
+  { left: '40%', size: 22, delay: '3s', duration: '12s' },
+  { left: '54%', size: 14, delay: '0.5s', duration: '9s' },
+  { left: '66%', size: 20, delay: '2.5s', duration: '11s' },
+  { left: '78%', size: 12, delay: '1.5s', duration: '8.5s' },
+  { left: '90%', size: 16, delay: '3.2s', duration: '10.5s' },
+];
+
 function HeroSection() {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] });
@@ -31,6 +42,21 @@ function HeroSection() {
       <div className="absolute inset-0 bg-dark-600">
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(245,166,35,0.06)_0%,_transparent_60%)]" />
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-[radial-gradient(circle,_rgba(245,166,35,0.04)_0%,_transparent_70%)]" />
+        <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
+          {heroBubbles.map((bubble, index) => (
+            <span
+              key={index}
+              className="hero-evap-dot"
+              style={{
+                left: bubble.left,
+                width: `${bubble.size}px`,
+                height: `${bubble.size}px`,
+                animationDelay: bubble.delay,
+                animationDuration: bubble.duration,
+              }}
+            />
+          ))}
+        </div>
         {/* Grid pattern */}
         <div className="absolute inset-0 opacity-[0.025]" style={{ backgroundImage: 'linear-gradient(rgba(245,166,35,1) 1px, transparent 1px), linear-gradient(90deg, rgba(245,166,35,1) 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
         {/* Diagonal lines */}
@@ -49,9 +75,15 @@ function HeroSection() {
           transition={{ duration: 0.8, ease: 'easeOut' }}
           className="mb-8 inline-block"
         >
-          <div className="relative w-32 h-32 sm:w-40 sm:h-40 mx-auto rounded-2xl overflow-hidden ring-4 ring-brand-400/30 shadow-2xl shadow-brand-400/20">
-            <img src={`${import.meta.env.BASE_URL}images/logo.jpeg`} alt="Media TV Logo" className="w-full h-full object-cover" />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+          <div id="home-hero-logo" className="relative w-32 h-32 sm:w-40 sm:h-40 mx-auto rounded-2xl overflow-hidden ring-4 ring-brand-400/30 shadow-2xl shadow-brand-400/20">
+            <img
+              src={`${import.meta.env.BASE_URL}images/logo.jpeg`}
+              alt="Media TV Logo"
+              className="w-full h-full object-cover logo-image-sharp"
+              loading="eager"
+              fetchPriority="high"
+              decoding="async"
+            />
           </div>
         </motion.div>
 
@@ -97,13 +129,18 @@ function HeroSection() {
 }
 
 function LiveTicker() {
+  const reduceMotion = useReducedMotion();
   const nowPrograms = ['Movie Time — Now Showing', 'Sthaliya Sudhigalu — 8:00 PM', 'Dubs Dhamaka — 8:30 PM', 'Night Movie Marathon — 9:30 PM', 'Hello Doctor — Every Saturday'];
   return (
     <div className="relative bg-dark-400 border-y border-white/5 py-3 overflow-hidden">
       <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-dark-400 to-transparent z-10" />
       <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-dark-400 to-transparent z-10" />
 
-      <motion.div className="flex gap-12 pl-24 whitespace-nowrap" animate={{ x: ['0%', '-50%'] }} transition={{ duration: 25, repeat: Infinity, ease: 'linear' }}>
+      <motion.div
+        className="flex gap-12 pl-24 whitespace-nowrap"
+        animate={reduceMotion ? undefined : { x: ['0%', '-50%'] }}
+        transition={reduceMotion ? undefined : { duration: 25, repeat: Infinity, ease: 'linear' }}
+      >
         {[...nowPrograms, ...nowPrograms].map((item, i) => (
           <span key={i} className="text-white/50 text-sm font-medium">{item}</span>
         ))}
