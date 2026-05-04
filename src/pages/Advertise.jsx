@@ -1,9 +1,28 @@
-import { useState } from 'react';
+import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { Sparkles, CheckCircle, Send, TrendingUp, Users, MapPin, Clock, ChevronDown, ChevronUp, Phone, Zap, Star } from 'lucide-react';
+import { Sparkles, CheckCircle, Send, TrendingUp, Users, MapPin, Clock, Phone, ChevronLeft, ChevronRight } from 'lucide-react';
 import ScrollReveal from '../components/ScrollReveal';
-import ProgramIcon from '../components/ProgramIcon';
+import AnimatedSelect from '../components/AnimatedSelect';
+import TariffCard from '../components/TariffCard';
 import { adTariffs } from '../data/testimonials';
+
+const AD_TYPE_OPTIONS = [
+  { value: 'scrolling', label: 'Scrolling Ads' },
+  { value: 'video', label: 'Video Ads (30 sec)' },
+  { value: 'flash', label: 'Flash Ads' },
+  { value: 'combo', label: 'Video + Scrolling Combo' },
+  { value: 'lband', label: 'L-Band Ads' },
+  { value: 'sponsorship', label: 'Program Sponsorship' },
+];
+
+const BUDGET_OPTIONS = [
+  { value: '', label: 'Select budget' },
+  { value: '3500-7000', label: '₹3,500 – ₹7,000' },
+  { value: '7000-15000', label: '₹7,000 – ₹15,000' },
+  { value: '15000-50000', label: '₹15,000 – ₹50,000' },
+  { value: '50000-100000', label: '₹50,000 – ₹1,00,000' },
+  { value: '100000+', label: '₹1,00,000+' },
+];
 
 const pageVariants = {
   initial: { opacity: 0 },
@@ -18,58 +37,142 @@ const whyAdvertise = [
   { icon: TrendingUp, title: 'Proven ROI', desc: 'Our advertisers report up to 40% increase in business within the first month.' },
 ];
 
-function TariffCard({ tariff }) {
-  const [expanded, setExpanded] = useState(false);
-  return (
-    <div className={`glass-card-hover p-6 h-full flex flex-col relative ${tariff.popular ? 'ring-2 ring-brand-400/40' : ''}`}>
-      {tariff.popular && (
-        <div className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 bg-gradient-to-r from-brand-500 to-brand-400 rounded-full text-dark-600 text-[10px] font-accent font-bold tracking-wider uppercase">
-          Most Popular
-        </div>
-      )}
-      <div className="w-12 h-12 rounded-xl bg-brand-400/10 border border-brand-400/20 flex items-center justify-center mb-3">
-        <ProgramIcon name={tariff.icon} size={22} className="text-brand-400" />
-      </div>
-      <h3 className="font-heading font-bold text-lg text-white/90 mb-1">{tariff.type}</h3>
-      <span className="text-brand-400/70 text-xs font-accent tracking-wider uppercase mb-3">{tariff.tagline}</span>
-      <p className="text-white/50 text-sm leading-relaxed mb-4 flex-1">{tariff.description}</p>
-      
-      <button onClick={() => setExpanded(!expanded)} className="flex items-center justify-between w-full py-2 text-sm text-white/60 hover:text-brand-400 transition-colors border-t border-white/5 mt-2">
-        <span>View Pricing</span>
-        {expanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
-      </button>
-      
-      {expanded && (
-        <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} className="overflow-hidden">
-          <div className="space-y-2 mt-3">
-            {tariff.plans.map((plan) => (
-              <div key={plan.duration} className="flex justify-between items-center py-2 px-3 rounded-lg bg-white/3 hover:bg-white/5 transition-colors">
-                <span className="text-white/60 text-sm">{plan.duration}</span>
-                <span className="font-heading font-semibold text-brand-300 text-sm">₹{plan.price}/-</span>
-              </div>
-            ))}
-            <div className="pt-3 border-t border-white/5 mt-3">
-              <div className="flex justify-between items-center">
-                <span className="text-white/70 text-sm font-medium">1 Year</span>
-                <span className="font-heading font-bold text-brand-400">₹{tariff.yearlyPrice}/-</span>
-              </div>
-              <p className="text-green-400/70 text-xs mt-1 flex items-center gap-1">
-                <Zap size={10} /> {tariff.yearlyBonus}
-              </p>
-            </div>
-          </div>
-        </motion.div>
-      )}
-    </div>
-  );
+/* Map tariff card types → form ad-type values */
+const TARIFF_TO_AD_TYPE = {
+  'Scrolling Ads': 'scrolling',
+  'Video Ads': 'video',
+  'Flash Ads': 'flash',
+  'Video & Scrolling Combo': 'combo',
+};
+
+/** Parse tariff price strings like "3,500" or "1,00,000" → number */
+function parseInrPrice(str) {
+  if (!str) return 0;
+  const n = Number(String(str).replace(/,/g, ''));
+  return Number.isFinite(n) ? n : 0;
+}
+
+/** Prefer 1‑month slot as typical spend; else middle tier */
+function representativeTariffRupees(tariff) {
+  const plans = tariff?.plans ?? [];
+  const oneMonth = plans.find((p) => /1\s*month/i.test(p.duration));
+  if (oneMonth) return parseInrPrice(oneMonth.price);
+  const mid = plans[Math.floor(plans.length / 2)];
+  return mid ? parseInrPrice(mid.price) : 0;
+}
+
+/** Align with BUDGET_OPTIONS `value` keys */
+function rupeesToBudgetValue(amount) {
+  if (amount <= 0) return '';
+  if (amount < 7000) return '3500-7000';
+  if (amount < 15000) return '7000-15000';
+  if (amount < 50000) return '15000-50000';
+  if (amount < 100000) return '50000-100000';
+  return '100000+';
+}
+
+/* ─────────────────────────────────────────────
+   3D Wheel Carousel Logic
+   ───────────────────────────────────────────── */
+function getCardTransform(offset, total) {
+  // offset: how far this card is from the front-facing position
+  // Normalise to range [-total/2, total/2]
+  let norm = offset;
+  if (norm > total / 2) norm -= total;
+  if (norm < -total / 2) norm += total;
+
+  const absNorm = Math.abs(norm);
+
+  // Circular positioning
+  const angle = norm * (360 / total);          // rotateY degrees
+  const radius = 440;                          // cylinder radius in px
+  const z = Math.cos((angle * Math.PI) / 180) * radius - radius; // depth
+  const x = Math.sin((angle * Math.PI) / 180) * radius;          // horizontal offset
+
+  // Scale & opacity based on distance from front
+  const scale = Math.max(0.55, 1 - absNorm * 0.18);
+  const opacity = Math.max(0, 1 - absNorm * 0.4);
+  const blur = absNorm > 1 ? Math.min(absNorm * 2, 6) : 0;
+
+  // z-index: front card highest
+  const zIndex = total - Math.round(absNorm);
+
+  return { x, z, angle, scale, opacity, blur, zIndex };
 }
 
 export default function Advertise() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [form, setForm] = useState({ name: '', business: '', email: '', phone: '', adType: '', budget: '', duration: '', message: '' });
+  const [adTypeError, setAdTypeError] = useState('');
+  const autoTimer = useRef(null);
+  const resumeTimer = useRef(null);
+  const formRef = useRef(null);
+  const total = adTariffs.length;
+
+  const goTo = useCallback((index) => {
+    setActiveIndex(((index % total) + total) % total);
+  }, [total]);
+
+  const next = useCallback(() => goTo(activeIndex + 1), [activeIndex, goTo]);
+  const prev = useCallback(() => goTo(activeIndex - 1), [activeIndex, goTo]);
+
+  // Auto-rotation
+  useEffect(() => {
+    if (isPaused) return;
+    autoTimer.current = setInterval(() => {
+      setActiveIndex((p) => (p + 1) % total);
+    }, 4000);
+    return () => clearInterval(autoTimer.current);
+  }, [isPaused, total]);
+
+  const pauseAndResume = useCallback(() => {
+    setIsPaused(true);
+    clearTimeout(resumeTimer.current);
+    resumeTimer.current = setTimeout(() => setIsPaused(false), 6000);
+  }, []);
+
+  const handleNav = useCallback((dir) => {
+    pauseAndResume();
+    dir === 'next' ? next() : prev();
+  }, [next, prev, pauseAndResume]);
+
+  // Select a plan → scroll to form & auto-fill ad type + budget bucket from typical slot price
+  const selectPlan = useCallback((tariff, specificPlan = null) => {
+    const adType = TARIFF_TO_AD_TYPE[tariff.type] || '';
+    
+    let rupees = 0;
+    if (specificPlan && specificPlan.price) {
+      rupees = parseInrPrice(specificPlan.price);
+    } else {
+      rupees = representativeTariffRupees(tariff);
+    }
+    
+    const budget = rupeesToBudgetValue(rupees);
+    
+    setForm((prev) => ({ ...prev, adType, budget }));
+    setAdTypeError('');
+    setTimeout(() => {
+      formRef.current?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 150);
+  }, []);
+
+  // Card transforms
+  const cardStyles = useMemo(() => {
+    return adTariffs.map((_, i) => {
+      const offset = ((i - activeIndex) % total + total) % total;
+      return getCardTransform(offset, total);
+    });
+  }, [activeIndex, total]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (!form.adType) {
+      setAdTypeError('Please select an ad type');
+      return;
+    }
+    setAdTypeError('');
     setSubmitted(true);
     setTimeout(() => { setSubmitted(false); setForm({ name: '', business: '', email: '', phone: '', adType: '', budget: '', duration: '', message: '' }); }, 5000);
   };
@@ -78,7 +181,7 @@ export default function Advertise() {
     <motion.div variants={pageVariants} initial="initial" animate="animate" exit="exit">
       {/* Hero */}
       <section className="relative pt-32 pb-20 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-brand-400/[0.06] via-dark-600 to-dark-600" />
+        <div className="absolute inset-0 bg-gradient-to-b from-brand-400/[0.035] via-dark-600 to-dark-600" />
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-[radial-gradient(ellipse,_rgba(245,166,35,0.05)_0%,_transparent_70%)]" />
         <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
           <motion.div initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 0.2 }}>
@@ -125,37 +228,161 @@ export default function Advertise() {
         </div>
       </section>
 
-      {/* Tariff Cards */}
-      <section className="py-16 sm:py-20 bg-gradient-section">
+      {/* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+          3D Wheel Pricing Carousel
+         ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */}
+      <section className="py-20 sm:py-28 bg-gradient-section overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <ScrollReveal>
-            <div className="text-center mb-12">
-              <span className="text-brand-400 font-accent text-xs tracking-[4px] uppercase mb-3 block">Pricing</span>
-              <h2 className="section-title gradient-text text-3xl sm:text-4xl">Ad Packages & Tariffs</h2>
-              <div className="gold-divider mx-auto" />
-              <p className="section-subtitle mx-auto mt-4">Flexible plans to fit every budget. Click each card to see detailed pricing.</p>
-            </div>
-          </ScrollReveal>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {adTariffs.map((tariff, i) => (
-              <ScrollReveal key={tariff.id} delay={i * 0.1}>
-                <TariffCard tariff={tariff} />
-              </ScrollReveal>
-            ))}
-          </div>
-          <ScrollReveal delay={0.3}>
-            <div className="mt-8 text-center">
-              <p className="text-white/30 text-sm">
-                * Payment by Cash, Check & Net Payment through Media TV<br />
-                * Terms & Conditions apply
+            <div className="text-center mb-10">
+              <span className="mb-3 block text-xs font-semibold uppercase tracking-[0.2em] text-brand-400/55">
+                Rate card
+              </span>
+              <h2 className="font-heading text-3xl font-semibold tracking-tight text-white sm:text-4xl">
+                Packages & tariffs
+              </h2>
+              <div
+                aria-hidden
+                className="mx-auto mt-4 h-px w-16 max-w-full bg-gradient-to-r from-transparent via-brand-400/35 to-transparent"
+              />
+              <p className="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-white/52">
+                Compare slots and annual bundles. Select the front card to load this package into your inquiry form.
               </p>
             </div>
           </ScrollReveal>
         </div>
+
+        {/* 3D Wheel */}
+        <div
+          className="relative mx-auto"
+          style={{ maxWidth: 1200 }}
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+        >
+          {/* Edge fade */}
+          <div className="absolute left-0 top-0 bottom-0 w-20 sm:w-40 bg-gradient-to-r from-[#0d0d0d] via-[#0d0d0d]/80 to-transparent z-30 pointer-events-none" />
+          <div className="absolute right-0 top-0 bottom-0 w-20 sm:w-40 bg-gradient-to-l from-[#0d0d0d] via-[#0d0d0d]/80 to-transparent z-30 pointer-events-none" />
+
+          {/* Nav arrows */}
+          <button
+            type="button"
+            onClick={() => handleNav('prev')}
+            className="group absolute left-2 top-1/2 z-40 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-lg border border-white/[0.09] bg-[#151311]/95 text-white/55 shadow-sm shadow-black/30 backdrop-blur-sm transition-all hover:border-brand-400/22 hover:bg-[#1a1814] hover:text-brand-200/90 sm:left-6"
+            aria-label="Previous package"
+          >
+            <ChevronLeft size={18} strokeWidth={2} className="transition-transform group-hover:-translate-x-px" />
+          </button>
+          <button
+            type="button"
+            onClick={() => handleNav('next')}
+            className="group absolute right-2 top-1/2 z-40 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-lg border border-white/[0.09] bg-[#151311]/95 text-white/55 shadow-sm shadow-black/30 backdrop-blur-sm transition-all hover:border-brand-400/22 hover:bg-[#1a1814] hover:text-brand-200/90 sm:right-6"
+            aria-label="Next package"
+          >
+            <ChevronRight size={18} strokeWidth={2} className="transition-transform group-hover:translate-x-px" />
+          </button>
+
+          {/* Wheel stage */}
+          <div
+            className="relative mx-auto overflow-visible"
+            style={{
+              height: 560,
+              perspective: '1400px',
+              perspectiveOrigin: '50% 50%',
+            }}
+          >
+            {adTariffs.map((tariff, i) => {
+              const s = cardStyles[i];
+              const isFront = i === activeIndex;
+
+              return (
+                <div
+                  key={tariff.id}
+                  onClick={() => {
+                    pauseAndResume();
+                    if (i === activeIndex) {
+                      // Front card clicked → select this plan (general/representative)
+                      selectPlan(tariff);
+                    } else {
+                      goTo(i);
+                    }
+                  }}
+                  className="absolute top-1/2 left-1/2 cursor-pointer outline-none [-webkit-tap-highlight-color:transparent] focus:outline-none focus-visible:outline-none"
+                  style={{
+                    width: 320,
+                    height: 540,
+                    transform: `
+                      translate(-50%, -50%)
+                      translateX(${s.x}px)
+                      translateZ(${s.z}px)
+                      scale(${s.scale})
+                    `,
+                    opacity: s.opacity,
+                    zIndex: s.zIndex,
+                    filter: s.blur > 0 ? `blur(${s.blur}px)` : 'none',
+                    transition: 'transform 0.8s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), filter 0.8s ease',
+                    pointerEvents: s.opacity < 0.15 ? 'none' : 'auto',
+                  }}
+                >
+                  <div
+                    className={`
+                      relative h-full w-full overflow-hidden rounded-[24px] outline-none transition-[box-shadow,transform] duration-500
+                      ${isFront
+                        ? 'shadow-[0_22px_50px_-14px_rgba(0,0,0,0.78),0_0_42px_-12px_rgba(245,166,35,0.09),0_0_0_1px_rgba(245,166,35,0.14)]'
+                        : 'shadow-[0_14px_36px_-16px_rgba(0,0,0,0.58),0_0_0_1px_rgba(245,166,35,0.04)]'
+                      }
+                    `}
+                  >
+                    <TariffCard tariff={tariff} onPlanSelect={selectPlan} />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Pagination */}
+          <div className="mt-6 flex justify-center gap-2">
+            {adTariffs.map((tariff, i) => (
+              <button
+                type="button"
+                key={tariff.id}
+                onClick={() => { pauseAndResume(); goTo(i); }}
+                className={`h-1 rounded-full transition-all duration-300 ${
+                  activeIndex === i
+                    ? 'w-8 bg-gradient-to-r from-brand-500/70 to-brand-400/50 shadow-sm shadow-brand-900/40'
+                    : 'w-1.5 bg-white/18 hover:bg-brand-400/30'
+                }`}
+                aria-label={`Show ${tariff.type}`}
+                aria-current={activeIndex === i ? 'true' : undefined}
+              />
+            ))}
+          </div>
+
+          <motion.p
+            key={activeIndex}
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.25 }}
+            className="mt-4 text-center text-sm text-white/55"
+          >
+            <span className="font-heading font-medium text-white/85">{adTariffs[activeIndex].type}</span>
+            <span className="mx-2 text-brand-400/35">·</span>
+            <span className="text-brand-400/50">{adTariffs[activeIndex].tagline}</span>
+          </motion.p>
+        </div>
+
+        <ScrollReveal delay={0.3}>
+          <div className="mt-10 text-center">
+            <p className="text-white/25 text-sm">
+              * Payment by Cash, Check & Net Payment through Media TV<br />
+              * Terms & Conditions apply
+            </p>
+          </div>
+        </ScrollReveal>
       </section>
 
       {/* Ad Request Form */}
-      <section className="py-16 sm:py-20 bg-gradient-dark">
+      {/* ref target for scroll-to */}
+      <section ref={formRef} className="py-16 sm:py-20 bg-gradient-dark">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
           <ScrollReveal>
             <div className="text-center mb-10">
@@ -198,29 +425,25 @@ export default function Advertise() {
                     </div>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                    <div>
-                      <label className="block text-white/50 text-sm mb-2">Ad Type *</label>
-                      <select required value={form.adType} onChange={(e) => setForm({ ...form, adType: e.target.value })} className="input-field">
-                        <option value="">Select type</option>
-                        <option value="scrolling">Scrolling Ads</option>
-                        <option value="video">Video Ads (30 sec)</option>
-                        <option value="flash">Flash Ads</option>
-                        <option value="combo">Video + Scrolling Combo</option>
-                        <option value="lband">L-Band Ads</option>
-                        <option value="sponsorship">Program Sponsorship</option>
-                      </select>
-                    </div>
-                    <div>
-                      <label className="block text-white/50 text-sm mb-2">Budget Range</label>
-                      <select value={form.budget} onChange={(e) => setForm({ ...form, budget: e.target.value })} className="input-field">
-                        <option value="">Select budget</option>
-                        <option value="3500-7000">₹3,500 – ₹7,000</option>
-                        <option value="7000-15000">₹7,000 – ₹15,000</option>
-                        <option value="15000-50000">₹15,000 – ₹50,000</option>
-                        <option value="50000-100000">₹50,000 – ₹1,00,000</option>
-                        <option value="100000+">₹1,00,000+</option>
-                      </select>
-                    </div>
+                    <AnimatedSelect
+                      label="Ad Type"
+                      placeholder="Select type"
+                      required
+                      value={form.adType}
+                      onChange={(v) => {
+                        setAdTypeError('');
+                        setForm({ ...form, adType: v });
+                      }}
+                      options={AD_TYPE_OPTIONS}
+                      error={adTypeError}
+                    />
+                    <AnimatedSelect
+                      label="Budget Range"
+                      placeholder="Select budget"
+                      value={form.budget}
+                      onChange={(v) => setForm({ ...form, budget: v })}
+                      options={BUDGET_OPTIONS}
+                    />
                   </div>
                   <div>
                     <label className="block text-white/50 text-sm mb-2">Message</label>

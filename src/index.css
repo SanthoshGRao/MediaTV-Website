@@ -232,6 +232,19 @@
   }
 
 
+  /* 3D Wheel Carousel */
+  .tariff-scroll-track::-webkit-scrollbar {
+    display: none;
+  }
+  .tariff-scroll-track {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .tariff-wheel-card {
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+  }
 
 }
 

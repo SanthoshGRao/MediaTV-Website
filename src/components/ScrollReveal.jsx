@@ -1,5 +1,5 @@
-import { useRef } from 'react';
-import { motion, useInView } from 'framer-motion';
+import { useRef, useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 
 export default function ScrollReveal({
   children,
@@ -7,10 +7,34 @@ export default function ScrollReveal({
   delay = 0,
   duration = 0.6,
   className = '',
-  once = true,
+  once = false, // If true, never hides after revealing
 }) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once, margin: '-80px' });
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+        } else if (!once) {
+          // Reset the animation ONLY if it leaves the bottom of the screen.
+          // This ensures it stays visible when scrolling up past it, 
+          // but re-animates the next time you scroll down to it.
+          if (entry.boundingClientRect.top > 0) {
+            setIsVisible(false);
+          }
+        }
+      },
+      { rootMargin: '-80px' }
+    );
+
+    if (ref.current) {
+      observer.observe(ref.current);
+    }
+
+    return () => observer.disconnect();
+  }, [once]);
 
   const directions = {
     up: { y: 60, x: 0 },
@@ -21,13 +45,12 @@ export default function ScrollReveal({
   };
 
   const { x, y } = directions[direction] || directions.up;
-  const shouldReveal = once ? isInView : true;
 
   return (
     <motion.div
       ref={ref}
       initial={{ opacity: 0, x, y }}
-      animate={shouldReveal ? { opacity: 1, x: 0, y: 0 } : { opacity: 0, x, y }}
+      animate={isVisible ? { opacity: 1, x: 0, y: 0 } : { opacity: 0, x, y }}
       transition={{
         duration,
         delay,
