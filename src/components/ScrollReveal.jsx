@@ -1,48 +1,40 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
 
 export default function ScrollReveal({
   children,
   direction = 'up',
   delay = 0,
+  duration = 0.6,
   className = '',
+  once = true,
 }) {
   const ref = useRef(null);
-  const [visible, setVisible] = useState(false);
+  const isInView = useInView(ref, { once, margin: '-80px' });
 
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true);
-          observer.unobserve(el);
-        }
-      },
-      { rootMargin: '-40px' }
-    );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
+  const directions = {
+    up: { y: 60, x: 0 },
+    down: { y: -60, x: 0 },
+    left: { x: 60, y: 0 },
+    right: { x: -60, y: 0 },
+    none: { x: 0, y: 0 },
+  };
 
-  const translate =
-    direction === 'up' ? 'translateY(24px)' :
-    direction === 'down' ? 'translateY(-24px)' :
-    direction === 'left' ? 'translateX(24px)' :
-    direction === 'right' ? 'translateX(-24px)' : 'none';
+  const { x, y } = directions[direction] || directions.up;
 
   return (
-    <div
+    <motion.div
       ref={ref}
-      className={className}
-      style={{
-        opacity: visible ? 1 : 0,
-        transform: visible ? 'none' : translate,
-        transition: `opacity 0.5s ease ${delay}s, transform 0.5s ease ${delay}s`,
-        willChange: visible ? 'auto' : 'opacity, transform',
+      initial={{ opacity: 0, x, y }}
+      animate={isInView ? { opacity: 1, x: 0, y: 0 } : { opacity: 0, x, y }}
+      transition={{
+        duration,
+        delay,
+        ease: [0.25, 0.46, 0.45, 0.94],
       }}
+      className={className}
     >
       {children}
-    </div>
+    </motion.div>
   );
 }

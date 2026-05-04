@@ -1,8 +1,15 @@
 import { useState } from 'react';
+import { motion } from 'framer-motion';
 import { Sparkles, CheckCircle, Send, TrendingUp, Users, MapPin, Clock, ChevronDown, ChevronUp, Phone, Zap, Star } from 'lucide-react';
 import ScrollReveal from '../components/ScrollReveal';
 import ProgramIcon from '../components/ProgramIcon';
 import { adTariffs } from '../data/testimonials';
+
+const pageVariants = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1, transition: { duration: 0.5 } },
+  exit: { opacity: 0, transition: { duration: 0.3 } },
+};
 
 const whyAdvertise = [
   { icon: Users, title: '20 Lakh+ Daily Viewers', desc: 'Massive daily reach across Karnataka ensures your brand gets maximum exposure.' },
@@ -33,7 +40,7 @@ function TariffCard({ tariff }) {
       </button>
       
       {expanded && (
-        <div className="overflow-hidden">
+        <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: 'auto', opacity: 1 }} className="overflow-hidden">
           <div className="space-y-2 mt-3">
             {tariff.plans.map((plan) => (
               <div key={plan.duration} className="flex justify-between items-center py-2 px-3 rounded-lg bg-white/3 hover:bg-white/5 transition-colors">
@@ -51,7 +58,7 @@ function TariffCard({ tariff }) {
               </p>
             </div>
           </div>
-        </div>
+        </motion.div>
       )}
     </div>
   );
@@ -68,26 +75,28 @@ export default function Advertise() {
   };
 
   return (
-    <div>
+    <motion.div variants={pageVariants} initial="initial" animate="animate" exit="exit">
       {/* Hero */}
       <section className="relative pt-32 pb-20 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-brand-400/[0.06] via-dark-600 to-dark-600" />
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-[radial-gradient(ellipse,_rgba(245,166,35,0.05)_0%,_transparent_70%)]" />
         <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
-          <Sparkles size={36} className="mx-auto mb-4 text-brand-400" />
-          <h1 className="section-title text-4xl sm:text-5xl">
+          <motion.div initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} transition={{ delay: 0.2 }}>
+            <Sparkles size={36} className="mx-auto mb-4 text-brand-400" />
+          </motion.div>
+          <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="section-title text-4xl sm:text-5xl">
             <span className="gradient-text-light">Advertise on Media TV</span>
-          </h1>
+          </motion.h1>
           <div className="gold-divider mx-auto" />
-          <p className="section-subtitle mx-auto mt-4 text-base sm:text-lg">
+          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="section-subtitle mx-auto mt-4 text-base sm:text-lg">
             Put your brand in front of 20+ lakh daily viewers across Karnataka.
             Affordable packages, maximum reach, proven results.
-          </p>
-          <div className="mt-8">
+          </motion.p>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.5 }} className="mt-8">
             <a href="tel:+919980959598" className="btn-gold text-base px-8 py-3.5 inline-flex items-center gap-2">
               <Phone size={18} /> Call Now: 9980 95 95 98
             </a>
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -102,7 +111,7 @@ export default function Advertise() {
           </ScrollReveal>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {whyAdvertise.map((item, i) => (
-              <ScrollReveal key={item.title} delay={Math.min(i * 0.1, 0.3)}>
+              <ScrollReveal key={item.title} delay={i * 0.1}>
                 <div className="glass-card-hover p-6 text-center h-full group">
                   <div className="w-12 h-12 rounded-xl bg-brand-400/10 border border-brand-400/20 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
                     <item.icon size={20} className="text-brand-400" />
@@ -129,12 +138,12 @@ export default function Advertise() {
           </ScrollReveal>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {adTariffs.map((tariff, i) => (
-              <ScrollReveal key={tariff.id} delay={Math.min(i * 0.1, 0.3)}>
+              <ScrollReveal key={tariff.id} delay={i * 0.1}>
                 <TariffCard tariff={tariff} />
               </ScrollReveal>
             ))}
           </div>
-          <ScrollReveal delay={0.2}>
+          <ScrollReveal delay={0.3}>
             <div className="mt-8 text-center">
               <p className="text-white/30 text-sm">
                 * Payment by Cash, Check & Net Payment through Media TV<br />
@@ -157,15 +166,15 @@ export default function Advertise() {
             </div>
           </ScrollReveal>
 
-          <ScrollReveal delay={0.1}>
+          <ScrollReveal delay={0.2}>
             <div className="glass-card p-8">
               {submitted ? (
-                <div className="text-center py-16">
+                <motion.div initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="text-center py-16">
                   <CheckCircle size={52} className="mx-auto mb-4 text-green-400" />
                   <h3 className="font-heading font-semibold text-xl text-white/90 mb-2">Request Submitted!</h3>
                   <p className="text-white/50 mb-4">Our advertising team will contact you within 24 hours.</p>
                   <p className="text-white/30 text-sm">Helpline: +91 9980 95 95 98</p>
-                </div>
+                </motion.div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-5">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -226,6 +235,6 @@ export default function Advertise() {
           </ScrollReveal>
         </div>
       </section>
-    </div>
+    </motion.div>
   );
 }
