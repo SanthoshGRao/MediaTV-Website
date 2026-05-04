@@ -50,7 +50,7 @@ function HeroSection() {
           className="mb-8 inline-block"
         >
           <div className="relative w-32 h-32 sm:w-40 sm:h-40 mx-auto rounded-2xl overflow-hidden ring-4 ring-brand-400/30 shadow-2xl shadow-brand-400/20">
-            <img src="/images/logo.jpeg" alt="Media TV Logo" className="w-full h-full object-cover" />
+            <img src={`${import.meta.env.BASE_URL}images/logo.jpeg`} alt="Media TV Logo" className="w-full h-full object-cover" />
             <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
           </div>
         </motion.div>

@@ -52,7 +52,7 @@ export default function Navbar() {
             >
               <div className="relative w-11 h-11 rounded-xl overflow-hidden ring-2 ring-brand-400/30 group-hover:ring-brand-400/60 transition-all duration-300">
                 <img
-                  src="/images/logo.jpeg"
+                  src={`${import.meta.env.BASE_URL}images/logo.jpeg`}
                   alt="Media TV Logo"
                   className="w-full h-full object-cover"
                 />

@@ -51,7 +51,7 @@ export default function Footer() {
             <Link to="/" className="flex items-center gap-3 mb-6">
               <div className="w-12 h-12 rounded-xl overflow-hidden ring-2 ring-brand-400/30">
                 <img
-                  src="/images/logo.jpeg"
+                  src={`${import.meta.env.BASE_URL}images/logo.jpeg`}
                   alt="Media TV"
                   className="w-full h-full object-cover"
                 />
