@@ -1,13 +1,6 @@
 import { useState } from 'react';
-import { motion } from 'framer-motion';
 import { Phone, Mail, MapPin, Send, Clock, CheckCircle, Facebook, Youtube, Instagram } from 'lucide-react';
 import ScrollReveal from '../components/ScrollReveal';
-
-const pageVariants = {
-  initial: { opacity: 0 },
-  animate: { opacity: 1, transition: { duration: 0.5 } },
-  exit: { opacity: 0, transition: { duration: 0.3 } },
-};
 
 const contactInfo = [
   { icon: Phone, label: 'Phone', value: '+91 9980 95 95 98', value2: '+91 7337 888 444', href: 'tel:+919980959598' },
@@ -33,17 +26,17 @@ export default function Contact() {
   };
 
   return (
-    <motion.div variants={pageVariants} initial="initial" animate="animate" exit="exit">
+    <div>
       {/* Hero */}
       <section className="relative pt-32 pb-16 overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-brand-400/5 via-dark-600 to-dark-600" />
         <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
-          <motion.span initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }} className="text-brand-400 font-accent text-xs tracking-[4px] uppercase mb-3 block">Reach Out</motion.span>
-          <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }} className="section-title text-4xl sm:text-5xl gradient-text">Contact Us</motion.h1>
+          <span className="text-brand-400 font-accent text-xs tracking-[4px] uppercase mb-3 block">Reach Out</span>
+          <h1 className="section-title text-4xl sm:text-5xl gradient-text">Contact Us</h1>
           <div className="gold-divider mx-auto" />
-          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="section-subtitle mx-auto mt-4">
+          <p className="section-subtitle mx-auto mt-4">
             Have questions or want to collaborate? We'd love to hear from you.
-          </motion.p>
+          </p>
         </div>
       </section>
 
@@ -52,7 +45,7 @@ export default function Contact() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {contactInfo.map((info, i) => (
-              <ScrollReveal key={info.label} delay={i * 0.1}>
+              <ScrollReveal key={info.label} delay={Math.min(i * 0.1, 0.3)}>
                 <div className="glass-card-hover p-6 text-center h-full group">
                   <div className="w-12 h-12 rounded-xl bg-brand-400/10 border border-brand-400/20 flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
                     <info.icon size={20} className="text-brand-400" />
@@ -81,11 +74,11 @@ export default function Contact() {
                 <div className="glass-card p-8">
                   <h2 className="font-heading font-bold text-2xl text-white/90 mb-6">Send us a Message</h2>
                   {submitted ? (
-                    <motion.div initial={{ scale: 0.8, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} className="text-center py-16">
+                    <div className="text-center py-16">
                       <CheckCircle size={48} className="mx-auto mb-4 text-green-400" />
                       <h3 className="font-heading font-semibold text-xl text-white/90 mb-2">Message Sent!</h3>
                       <p className="text-white/50">Thank you for reaching out. We'll get back to you soon.</p>
-                    </motion.div>
+                    </div>
                   ) : (
                     <form onSubmit={handleSubmit} className="space-y-5">
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
@@ -163,6 +156,6 @@ export default function Contact() {
           </div>
         </div>
       </section>
-    </motion.div>
+    </div>
   );
 }
