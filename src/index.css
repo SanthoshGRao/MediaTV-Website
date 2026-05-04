@@ -1,0 +1,291 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ======================================
+   CUSTOM BASE STYLES - Media TV Mysore
+   ====================================== */
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    scrollbar-width: thin;
+    scrollbar-color: #F5A623 #0a0a0a;
+  }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background-color: #0a0a0a;
+    color: #f5f5f5;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #0a0a0a;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: linear-gradient(180deg, #F5A623, #D4891C);
+    border-radius: 4px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(180deg, #FFD54F, #F5A623);
+  }
+
+  ::selection {
+    background-color: rgba(245, 166, 35, 0.3);
+    color: #FFD54F;
+  }
+}
+
+/* ======================================
+   COMPONENT STYLES
+   ====================================== */
+@layer components {
+  /* Glassmorphism Card */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+  }
+
+  .glass-card-hover {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .glass-card-hover:hover {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(245, 166, 35, 0.3);
+    box-shadow: 0 8px 32px rgba(245, 166, 35, 0.15),
+                0 0 0 1px rgba(245, 166, 35, 0.1);
+    transform: translateY(-4px);
+  }
+
+  /* Gradient Text */
+  .gradient-text {
+    background: linear-gradient(135deg, #FFD54F, #F5A623, #D4891C);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .gradient-text-light {
+    background: linear-gradient(135deg, #FFF8E1, #FFD54F, #F5A623);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Gold Button */
+  .btn-gold {
+    background: linear-gradient(135deg, #F5A623, #D4891C);
+    color: #0a0a0a;
+    font-weight: 700;
+    padding: 12px 32px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .btn-gold::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s ease;
+  }
+
+  .btn-gold:hover::before {
+    left: 100%;
+  }
+
+  .btn-gold:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(245, 166, 35, 0.4);
+  }
+
+  /* Outlined Button */
+  .btn-outline-gold {
+    background: transparent;
+    color: #F5A623;
+    font-weight: 600;
+    padding: 12px 32px;
+    border-radius: 12px;
+    border: 2px solid rgba(245, 166, 35, 0.5);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .btn-outline-gold:hover {
+    background: rgba(245, 166, 35, 0.1);
+    border-color: #F5A623;
+    box-shadow: 0 0 20px rgba(245, 166, 35, 0.2);
+    transform: translateY(-2px);
+  }
+
+  /* Section Title */
+  .section-title {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 700;
+    font-size: 2.5rem;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+
+  .section-subtitle {
+    font-family: 'Inter', sans-serif;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 1.1rem;
+    line-height: 1.7;
+    max-width: 600px;
+  }
+
+  /* Divider Line */
+  .gold-divider {
+    width: 80px;
+    height: 3px;
+    background: linear-gradient(90deg, #F5A623, #FFD54F);
+    border-radius: 2px;
+    margin: 1rem 0;
+  }
+
+  /* Glow Effect */
+  .glow-orange {
+    box-shadow: 0 0 20px rgba(245, 166, 35, 0.3),
+                0 0 60px rgba(245, 166, 35, 0.1);
+  }
+
+  /* Input Fields */
+  .input-field {
+    width: 100%;
+    padding: 14px 18px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    color: #f5f5f5;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    outline: none;
+  }
+
+  .input-field:focus {
+    border-color: rgba(245, 166, 35, 0.5);
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 20px rgba(245, 166, 35, 0.1);
+  }
+
+  .input-field::placeholder {
+    color: rgba(255, 255, 255, 0.35);
+  }
+
+  /* Animated Border */
+  .animated-border {
+    position: relative;
+    overflow: hidden;
+    border-radius: 16px;
+  }
+
+  .animated-border::before {
+    content: '';
+    position: absolute;
+    inset: -2px;
+    background: conic-gradient(from 0deg, #F5A623, #FFD54F, #D4891C, #F5A623);
+    border-radius: 18px;
+    z-index: -1;
+    animation: spin 4s linear infinite;
+  }
+
+  .animated-border::after {
+    content: '';
+    position: absolute;
+    inset: 2px;
+    background: #111111;
+    border-radius: 14px;
+    z-index: -1;
+  }
+
+
+
+}
+
+/* ======================================
+   UTILITY STYLES
+   ====================================== */
+@layer utilities {
+  /* Noise Texture Overlay */
+  .noise-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .text-shadow-gold {
+    text-shadow: 0 0 40px rgba(245, 166, 35, 0.3);
+  }
+
+  .bg-gradient-dark {
+    background: linear-gradient(180deg, #0a0a0a 0%, #111111 50%, #0a0a0a 100%);
+  }
+
+  .bg-gradient-section {
+    background: linear-gradient(180deg, #0d0d0d 0%, #151515 50%, #0d0d0d 100%);
+  }
+}
+
+/* ======================================
+   ANIMATION UTILITIES
+   ====================================== */
+@keyframes float-particle {
+  0%, 100% {
+    transform: translateY(0) translateX(0) scale(1);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  50% {
+    transform: translateY(-100vh) translateX(50px) scale(0.5);
+  }
+}
+
+.particle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: radial-gradient(circle, #F5A623, transparent);
+  border-radius: 50%;
+  pointer-events: none;
+}
