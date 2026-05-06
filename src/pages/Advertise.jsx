@@ -1,10 +1,10 @@
 import { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { motion } from 'framer-motion';
-import { Sparkles, CheckCircle, Send, TrendingUp, Users, MapPin, Clock, Phone, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Sparkles, CheckCircle, Send, TrendingUp, Users, MapPin, Clock, Phone, ChevronLeft, ChevronRight, Star, Crown, Gem, CheckCircle2, ArrowRight } from 'lucide-react';
 import ScrollReveal from '../components/ScrollReveal';
 import AnimatedSelect from '../components/AnimatedSelect';
 import TariffCard from '../components/TariffCard';
-import { adTariffs } from '../data/testimonials';
+import { adTariffs, businessPackages } from '../data/testimonials';
 
 const AD_TYPE_OPTIONS = [
   { value: 'scrolling', label: 'Scrolling Ads' },
@@ -32,12 +32,11 @@ const pageVariants = {
 
 const whyAdvertise = [
   { icon: Users, title: '20 Lakh+ Daily Viewers', desc: 'Massive daily reach across Karnataka ensures your brand gets maximum exposure.' },
-  { icon: MapPin, title: '10+ Districts Coverage', desc: 'From Mysore to Bangalore Rural — your ad reaches audiences across Karnataka.' },
+  { icon: MapPin, title: '18+ Districts Coverage', desc: 'From Mysore to Bidar — your ad reaches audiences across all of Karnataka.' },
   { icon: Clock, title: '18+ Hours Broadcasting', desc: 'Round-the-clock exposure with ads running during peak and off-peak hours.' },
   { icon: TrendingUp, title: 'Proven ROI', desc: 'Our advertisers report up to 40% increase in business within the first month.' },
 ];
 
-/* Map tariff card types → form ad-type values */
 const TARIFF_TO_AD_TYPE = {
   'Scrolling Ads': 'scrolling',
   'Video Ads': 'video',
@@ -141,16 +140,16 @@ export default function Advertise() {
   // Select a plan → scroll to form & auto-fill ad type + budget bucket from typical slot price
   const selectPlan = useCallback((tariff, specificPlan = null) => {
     const adType = TARIFF_TO_AD_TYPE[tariff.type] || '';
-    
+
     let rupees = 0;
     if (specificPlan && specificPlan.price) {
       rupees = parseInrPrice(specificPlan.price);
     } else {
       rupees = representativeTariffRupees(tariff);
     }
-    
+
     const budget = rupeesToBudgetValue(rupees);
-    
+
     setForm((prev) => ({ ...prev, adType, budget }));
     setAdTypeError('');
     setTimeout(() => {
@@ -346,11 +345,10 @@ export default function Advertise() {
                 type="button"
                 key={tariff.id}
                 onClick={() => { pauseAndResume(); goTo(i); }}
-                className={`h-1 rounded-full transition-all duration-300 ${
-                  activeIndex === i
+                className={`h-1 rounded-full transition-all duration-300 ${activeIndex === i
                     ? 'w-8 bg-gradient-to-r from-brand-500/70 to-brand-400/50 shadow-sm shadow-brand-900/40'
                     : 'w-1.5 bg-white/18 hover:bg-brand-400/30'
-                }`}
+                  }`}
                 aria-label={`Show ${tariff.type}`}
                 aria-current={activeIndex === i ? 'true' : undefined}
               />
@@ -380,6 +378,8 @@ export default function Advertise() {
         </ScrollReveal>
       </section>
 
+
+
       {/* Ad Request Form */}
       {/* ref target for scroll-to */}
       <section ref={formRef} className="py-16 sm:py-20 bg-gradient-dark">
@@ -400,7 +400,7 @@ export default function Advertise() {
                   <CheckCircle size={52} className="mx-auto mb-4 text-green-400" />
                   <h3 className="font-heading font-semibold text-xl text-white/90 mb-2">Request Submitted!</h3>
                   <p className="text-white/50 mb-4">Our advertising team will contact you within 24 hours.</p>
-                  <p className="text-white/30 text-sm">Helpline: +91 9980 95 95 98</p>
+                  <p className="text-white/30 text-sm">Helpline: +91 99809 59598</p>
                 </motion.div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-5">

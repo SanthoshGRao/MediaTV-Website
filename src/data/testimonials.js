@@ -141,3 +141,63 @@ export const adTariffs = [
     icon: "target",
   },
 ];
+
+/* ─────────────────────────────────────────────
+   Special Business Package Offers
+   (from Media Tv Best Business Man brochure)
+   ───────────────────────────────────────────── */
+export const businessPackages = [
+  {
+    id: 1,
+    tier: "Silver",
+    tagline: "Great Starter Package",
+    actualValue: "30,000",
+    offerPrice: "20,000",
+    validity: "Within 6 Months",
+    includes: [
+      "Video Ads",
+      "Scrolling Ads (Unlimited Slots)",
+      "Flash Ads (Unlimited Slots)",
+      "2 Live Shows",
+      "Festival / Product Wishes Ad",
+      "Logo Display in our Events (2 Events)",
+    ],
+    icon: "star",
+    color: "#9CA3AF",
+  },
+  {
+    id: 2,
+    tier: "Gold",
+    tagline: "Best Value for Growth",
+    actualValue: "50,000",
+    offerPrice: "30,000",
+    validity: "Within 8 Months",
+    includes: [
+      "Video Ads",
+      "Flash Ads (Unlimited Slots)",
+      "5 Live Shows",
+      "Festival / Product Wishes Ad",
+      "Logo Display in our Events (Per 4 Events)",
+    ],
+    icon: "crown",
+    color: "#F5A623",
+  },
+  {
+    id: 3,
+    tier: "Platinum",
+    tagline: "Maximum Exposure",
+    actualValue: "1,00,000",
+    offerPrice: "50,000",
+    validity: "Within 10 Months",
+    includes: [
+      "Video Ads",
+      "Scrolling Ads (Unlimited Slots)",
+      "Flash Ads (Unlimited Slots)",
+      "10 Live Shows",
+      "Festival / Product Wishes Ad",
+      "Logo Display in our Events (Per 8 Events)",
+    ],
+    icon: "gem",
+    color: "#A78BFA",
+  },
+];

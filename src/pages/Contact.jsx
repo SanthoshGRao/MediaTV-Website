@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Phone, Mail, MapPin, Send, Clock, CheckCircle, Facebook, Youtube, Instagram } from 'lucide-react';
+import { Phone, Mail, MapPin, Send, Clock, CheckCircle, Facebook, Youtube, Instagram, CreditCard, Building2, QrCode } from 'lucide-react';
 import ScrollReveal from '../components/ScrollReveal';
 
 const pageVariants = {
@@ -10,9 +10,9 @@ const pageVariants = {
 };
 
 const contactInfo = [
-  { icon: Phone, label: 'Phone', value: '+91 9980 95 95 98', value2: '+91 7337 888 444', href: 'tel:+919980959598' },
+  { icon: Phone, label: 'Phone', value: '+91 9980 95 95 98', value2: '+91 805 0051 444', href: 'tel:+919980959598' },
   { icon: Mail, label: 'Email', value: 'mediatvmysore@gmail.com', href: 'mailto:mediatvmysore@gmail.com' },
-  { icon: MapPin, label: 'Office', value: 'No.13/13, 2nd Cross, Shankar Mutt Road, Khille Mohalla, Mysuru, Karnataka 570004' },
+  { icon: MapPin, label: 'Office', value: 'No #2930/1A, New No K20, 1st Floor, SMP Building, JLB Road, Near HP Petrol Bunk, Chamundipuram, K.R. Mohalla, Mysore - 570004' },
   { icon: Clock, label: 'Hours', value: 'Monday – Saturday', value2: '9:00 AM – 6:00 PM' },
 ];
 
@@ -21,6 +21,15 @@ const socials = [
   { icon: Youtube, name: 'YouTube', handle: 'MediaTV Mysore', url: 'https://youtube.com/@MediaTVMysore' },
   { icon: Instagram, name: 'Instagram', handle: '@Mediatvmys', url: 'https://instagram.com/Mediatvmys' },
 ];
+
+const bankDetails = {
+  bankName: 'Canara Bank',
+  accountName: 'MEDIA TV',
+  accountNo: '0538201001257',
+  ifsc: 'CNRB0000538',
+  branch: 'Chamaraja Mohalla Ballal Circle Branch, Mysore',
+  upiId: '9980959598@cnrb',
+};
 
 export default function Contact() {
   const [submitted, setSubmitted] = useState(false);
@@ -112,6 +121,8 @@ export default function Contact() {
                             <option value="programming">Programming</option>
                             <option value="feedback">Feedback</option>
                             <option value="partnership">Partnership</option>
+                            <option value="careers">Careers</option>
+                            <option value="award">Business Icon Award 2026</option>
                           </select>
                         </div>
                       </div>
@@ -160,6 +171,95 @@ export default function Contact() {
                 </div>
               </ScrollReveal>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Payment Information */}
+      <section className="py-16 sm:py-20 bg-gradient-dark">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <ScrollReveal>
+            <div className="text-center mb-14">
+              <span className="text-brand-400 font-accent text-xs tracking-[4px] uppercase mb-3 block">Payments</span>
+              <h2 className="section-title gradient-text text-3xl sm:text-4xl">Payment Information</h2>
+              <div className="gold-divider mx-auto" />
+              <p className="section-subtitle mx-auto mt-4">
+                Multiple payment options available for your convenience. Pay via UPI, bank transfer, or in person.
+              </p>
+            </div>
+          </ScrollReveal>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {/* Bank Details */}
+            <ScrollReveal direction="left">
+              <div className="glass-card p-8 h-full">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-12 h-12 rounded-xl bg-brand-400/10 border border-brand-400/20 flex items-center justify-center">
+                    <Building2 size={20} className="text-brand-400" />
+                  </div>
+                  <div>
+                    <h3 className="font-heading font-semibold text-lg text-white/90">Bank Transfer</h3>
+                    <p className="text-white/40 text-xs">{bankDetails.bankName}</p>
+                  </div>
+                </div>
+
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between p-3 rounded-xl bg-white/[0.03] border border-white/5">
+                    <span className="text-white/40 text-sm">Account Name</span>
+                    <span className="text-white/80 text-sm font-medium">{bankDetails.accountName}</span>
+                  </div>
+                  <div className="flex items-center justify-between p-3 rounded-xl bg-white/[0.03] border border-white/5">
+                    <span className="text-white/40 text-sm">Account No</span>
+                    <span className="text-white/80 text-sm font-mono font-medium tracking-wider">{bankDetails.accountNo}</span>
+                  </div>
+                  <div className="flex items-center justify-between p-3 rounded-xl bg-white/[0.03] border border-white/5">
+                    <span className="text-white/40 text-sm">IFSC Code</span>
+                    <span className="text-white/80 text-sm font-mono font-medium tracking-wider">{bankDetails.ifsc}</span>
+                  </div>
+                  <div className="flex items-center justify-between p-3 rounded-xl bg-white/[0.03] border border-white/5">
+                    <span className="text-white/40 text-sm">Branch</span>
+                    <span className="text-white/80 text-sm font-medium text-right max-w-[55%]">{bankDetails.branch}</span>
+                  </div>
+                </div>
+
+                <div className="mt-6 p-4 rounded-xl bg-brand-400/5 border border-brand-400/15">
+                  <div className="flex items-center gap-2 mb-2">
+                    <CreditCard size={14} className="text-brand-400" />
+                    <span className="text-white/70 text-sm font-medium">Other Payment Modes</span>
+                  </div>
+                  <p className="text-white/45 text-xs leading-relaxed">
+                    Cash, Check, Google Pay, PhonePe & Net Payment accepted through Media TV office.
+                  </p>
+                </div>
+              </div>
+            </ScrollReveal>
+
+            {/* QR Code */}
+            <ScrollReveal direction="right">
+              <div className="glass-card p-8 h-full flex flex-col items-center justify-center text-center">
+                <div className="flex items-center gap-3 mb-6">
+                  <div className="w-12 h-12 rounded-xl bg-brand-400/10 border border-brand-400/20 flex items-center justify-center">
+                    <QrCode size={20} className="text-brand-400" />
+                  </div>
+                  <div className="text-left">
+                    <h3 className="font-heading font-semibold text-lg text-white/90">Scan & Pay</h3>
+                    <p className="text-white/40 text-xs">UPI QR Code</p>
+                  </div>
+                </div>
+
+                <div className="w-64 h-64 rounded-2xl overflow-hidden ring-2 ring-brand-400/20 shadow-2xl shadow-black/40 mx-auto mb-4 bg-white p-2">
+                  <img
+                    src={`${import.meta.env.BASE_URL}images/payment-qr-canara.jpeg`}
+                    alt="Media TV UPI QR Code"
+                    className="w-full h-full object-contain"
+                    loading="lazy"
+                  />
+                </div>
+
+                <p className="text-white/60 text-sm font-mono mt-2">{bankDetails.upiId}</p>
+                <p className="text-white/30 text-xs mt-1">Scan with any UPI app to pay</p>
+              </div>
+            </ScrollReveal>
           </div>
         </div>
       </section>

@@ -69,7 +69,7 @@ export default function Footer() {
             </Link>
             <p className="text-white/50 text-sm leading-relaxed mb-6">
               One of the best local channels in Mysore District, telecasted
-              throughout Karnataka in 10+ districts. Purely entertainment &
+              throughout Karnataka in 18+ districts. Purely entertainment &
               news with 20-25 lakh viewers daily.
             </p>
             <div className="flex gap-3">
@@ -152,8 +152,8 @@ export default function Footer() {
                   className="text-brand-400/60 mt-0.5 flex-shrink-0"
                 />
                 <div>
-                  <p>+91 9980 95 95 98</p>
-                  <p>+91 7337 888 444</p>
+                  <p>+91 99809 59598</p>
+                  <p>+91 80500 51444</p>
                 </div>
               </a>
               <a
@@ -169,8 +169,8 @@ export default function Footer() {
                   className="text-brand-400/60 mt-0.5 flex-shrink-0"
                 />
                 <p>
-                  No.13/13, 2nd Cross, Shankar Mutt Road, Khille Mohalla,
-                  Mysuru, Karnataka 570004
+                  No #2930/1A, New No K20, 1st Floor, SMP Building,
+                  JLB Road, Chamundipuram, K.R. Mohalla, Mysore 570004
                 </p>
               </div>
             </div>

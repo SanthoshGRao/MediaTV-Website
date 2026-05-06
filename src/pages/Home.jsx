@@ -1,10 +1,10 @@
 import { useRef, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, useScroll, useTransform, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { Play, ChevronRight, Star, Quote, Users, MapPin, Tv, Radio, ArrowRight, Clock, Sparkles } from 'lucide-react';
+import { Play, ChevronRight, Star, Quote, Users, MapPin, Tv, Radio, ArrowRight, Clock, Sparkles, Briefcase, Newspaper, Mic, Megaphone, Calendar } from 'lucide-react';
 import ScrollReveal from '../components/ScrollReveal';
 import ProgramIcon from '../components/ProgramIcon';
-import { programs, specialPrograms } from '../data/programs';
+import { programs, specialPrograms, careerOpenings } from '../data/programs';
 import { testimonials } from '../data/testimonials';
 
 const pageVariants = {
@@ -15,7 +15,7 @@ const pageVariants = {
 
 const stats = [
   { value: '20L+', label: 'Daily Viewers', icon: Users },
-  { value: '10+', label: 'Districts', icon: MapPin },
+  { value: '18+', label: 'Districts', icon: MapPin },
   { value: '18+', label: 'Hours Daily', icon: Clock },
   { value: '15+', label: 'Programs', icon: Tv },
 ];
@@ -30,6 +30,8 @@ const heroBubbles = [
   { left: '78%', size: 12, delay: '1.5s', duration: '8.5s' },
   { left: '90%', size: 16, delay: '3.2s', duration: '10.5s' },
 ];
+
+const careerIcons = { megaphone: Megaphone, mic: Mic, calendar: Calendar, newspaper: Newspaper };
 
 function HeroSection() {
   const ref = useRef(null);
@@ -107,7 +109,7 @@ function HeroSection() {
           className="text-white/60 text-base sm:text-lg max-w-2xl mx-auto mb-10 leading-relaxed"
         >
           Bringing you the best entertainment, news, and local content from the heart of Mysore
-          to over 20 lakh viewers across 10+ districts of Karnataka.
+          to over 20 lakh viewers across 18+ districts of Karnataka.
         </motion.p>
 
         <motion.div
@@ -231,7 +233,7 @@ function AdvertiseCTA() {
           </h2>
           <div className="gold-divider mx-auto mt-4" />
           <p className="section-subtitle mx-auto mt-6 mb-10">
-            Reach over 20 lakh daily viewers across 10+ districts of Karnataka.
+            Reach over 20 lakh daily viewers across 18+ districts of Karnataka.
             Affordable ad packages starting from just ₹3,500.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -240,6 +242,58 @@ function AdvertiseCTA() {
             </Link>
             <a href="tel:+919980959598" className="btn-outline-gold text-base px-8 py-3.5">
               Call: +91 9980 95 95 98
+            </a>
+          </div>
+        </ScrollReveal>
+      </div>
+    </section>
+  );
+}
+
+function CareersSection() {
+  return (
+    <section className="py-20 bg-gradient-dark">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <ScrollReveal>
+          <div className="text-center mb-14">
+            <span className="text-brand-400 font-accent text-xs tracking-[4px] uppercase mb-3 block">Join Our Team</span>
+            <h2 className="section-title gradient-text">Career Opportunities</h2>
+            <div className="gold-divider mx-auto" />
+            <p className="section-subtitle mx-auto mt-4">
+              Be part of Karnataka's fastest growing regional TV channel. We're hiring across all districts.
+            </p>
+          </div>
+        </ScrollReveal>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          {careerOpenings.map((job, i) => {
+            const IconComp = careerIcons[job.icon] || Briefcase;
+            return (
+              <ScrollReveal key={job.id} delay={i * 0.1}>
+                <div className="glass-card-hover p-6 h-full group">
+                  <div className="flex items-start gap-4">
+                    <div className="w-14 h-14 rounded-xl bg-brand-400/10 border border-brand-400/20 flex items-center justify-center flex-shrink-0 group-hover:scale-110 group-hover:bg-brand-400/20 transition-all duration-300">
+                      <IconComp size={22} className="text-brand-400" />
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-1 flex-wrap">
+                        <h3 className="font-heading font-semibold text-white/90 group-hover:text-brand-300 transition-colors">{job.title}</h3>
+                        <span className="text-[10px] font-accent text-brand-400/70 tracking-wider uppercase px-2 py-0.5 bg-brand-400/10 rounded-full">{job.type}</span>
+                      </div>
+                      <p className="text-white/50 text-sm leading-relaxed mt-2">{job.description}</p>
+                    </div>
+                  </div>
+                </div>
+              </ScrollReveal>
+            );
+          })}
+        </div>
+
+        <ScrollReveal delay={0.4}>
+          <div className="text-center mt-10">
+            <p className="text-white/40 text-sm mb-4">Interested? Contact us for more details.</p>
+            <a href="tel:+919980959598" className="btn-gold inline-flex items-center gap-2 text-sm px-6 py-3">
+              Helpline: 9980 95 95 98
             </a>
           </div>
         </ScrollReveal>
@@ -334,6 +388,7 @@ export default function Home() {
       <LiveTicker />
       <StatsSection />
       <FeaturedPrograms />
+      <CareersSection />
       <AdvertiseCTA />
       <TestimonialsSection />
     </motion.div>

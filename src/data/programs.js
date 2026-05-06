@@ -103,7 +103,7 @@ export const programs = [
     name: "Sthaliya Sudhigalu",
     time: "8:00 PM – 8:30 PM",
     category: "News",
-    description: "Comprehensive local news coverage of Mysore and Karnataka. Stay informed about your community.",
+    description: "Comprehensive local news coverage — Saliya Sudigallu brings you the latest from Mysore and Karnataka every evening.",
     icon: "landmark",
     featured: true,
   },
@@ -119,7 +119,7 @@ export const programs = [
   {
     id: 14,
     name: "Night Movie Marathon",
-    time: "9:30 PM – 12:00 AM",
+    time: "9:30 PM onwards",
     category: "Movies",
     description: "Premium movie screening for the night owls. Enjoy blockbuster films in the comfort of your home.",
     icon: "moon",
@@ -176,6 +176,14 @@ export const specialPrograms = [
     icon: "briefcase",
     badge: "Business",
   },
+  {
+    id: 107,
+    name: "Ward Interview",
+    schedule: "Weekly",
+    description: "Spotlighting local ward representatives, community leaders, and civic issues. Connecting citizens to governance at the grassroots level.",
+    icon: "landmark",
+    badge: "Civic",
+  },
 ];
 
 export const categories = [
@@ -193,21 +201,81 @@ export const coverageAreas = [
   { area: "Mysore", setupBox: "VK Digital" },
   { area: "H.D. Kote", setupBox: "Priya Darshini" },
   { area: "Sarguru", setupBox: "Priya Darshini" },
-  { area: "Nanjangud", setupBox: "KCL" },
+  { area: "Naripura", setupBox: "KCL" },
   { area: "Piriyapatna", setupBox: "NXT" },
   { area: "Ballary", setupBox: "RCN Digital" },
   { area: "Koppal", setupBox: "KCN" },
   { area: "Davangere", setupBox: "REXSI" },
   { area: "Shivamogga", setupBox: "Shivamogga Digital" },
   { area: "Bangalore Rural", setupBox: "Hathway" },
-  { area: "Chikballapur", setupBox: "Nxt Digital" },
-  { area: "Kolara", setupBox: "VK Digital" },
-  { area: "Yalaburga", setupBox: "REXSI" },
-  { area: "Vijayapura", setupBox: "Den" },
+  { area: "Bijapur", setupBox: "Den" },
   { area: "Gulbarga", setupBox: "Sitbox" },
   { area: "Raichur", setupBox: "Den Ex" },
-  { area: "Shira", setupBox: "Digital" },
-  { area: "Devadurga", setupBox: "NXT" },
-  { area: "Belagale", setupBox: "VK Digital Digital" },
-  { area: "Bagepale", setupBox: "Hathway" },
+  { area: "Belgaum", setupBox: "VK Digital" },
+  { area: "Dharwad", setupBox: "NXT Digital" },
+  { area: "Gadag", setupBox: "REXSI" },
+  { area: "Haveri", setupBox: "Hathway" },
+  { area: "Uttara Kannada", setupBox: "NXT Digital" },
+  { area: "Chitradurga", setupBox: "RCN Digital" },
+  { area: "Tumkur", setupBox: "Shivamogga Digital" },
+  { area: "Kolar", setupBox: "VK Digital" },
+  { area: "Bangalore", setupBox: "Hathway" },
+  { area: "Mandya", setupBox: "KCL" },
+  { area: "Kodagu", setupBox: "NXT" },
+  { area: "Chikmagalur", setupBox: "REXSI" },
+  { area: "Udupi", setupBox: "NXT Digital" },
+  { area: "Mangalore", setupBox: "Hathway" },
+  { area: "Chamarajanagar", setupBox: "VK Digital" },
+  { area: "Bidar", setupBox: "Sitbox" },
 ];
+
+/* ─────────────────────────────────────────────
+   Career openings (from reference material)
+   ───────────────────────────────────────────── */
+export const careerOpenings = [
+  {
+    id: 1,
+    title: "Marketing Manager",
+    type: "Full-time",
+    description: "Lead marketing strategy and client acquisition across all 18+ districts. Drive brand partnerships and advertising revenue.",
+    icon: "megaphone",
+  },
+  {
+    id: 2,
+    title: "News Anchors",
+    type: "Full-time",
+    description: "Present daily news bulletins including Sthaliya Sudhigalu and morning news. Fluent Kannada with confident screen presence required.",
+    icon: "mic",
+  },
+  {
+    id: 3,
+    title: "Event Managers",
+    type: "Full-time / Freelance",
+    description: "Plan and execute Media TV events, award ceremonies, and live show productions across Karnataka.",
+    icon: "calendar",
+  },
+  {
+    id: 4,
+    title: "District Reporters",
+    type: "Freelance / Part-time",
+    description: "Report local news from your district. We need correspondents in all 30+ districts of Karnataka to strengthen our coverage network.",
+    icon: "newspaper",
+  },
+];
+
+/* ─────────────────────────────────────────────
+   Business Icon Award 2026
+   ───────────────────────────────────────────── */
+export const businessAward = {
+  title: "Media TV Business Icon Award 2026",
+  date: "June 27, 2026",
+  venue: "Jalmahal Resort and Spa",
+  description: "Media TV proudly presents the Business Icon Award 2026 — recognizing and celebrating outstanding business leaders, entrepreneurs, and innovators across Karnataka. Join us for an evening of inspiration, networking, and recognition.",
+  highlights: [
+    "Honoring top business achievers across Karnataka",
+    "Celebrity guests and keynote speakers",
+    "Gala dinner and networking at a premium venue",
+    "Media TV coverage and brand exposure",
+    "Trophy and certificate for all awardees",
+  ],
+};
