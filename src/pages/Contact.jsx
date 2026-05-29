@@ -1,7 +1,36 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Phone, Mail, MapPin, Send, Clock, CheckCircle, Facebook, Youtube, Instagram, CreditCard, Building2, QrCode } from 'lucide-react';
+import { Phone, Mail, MapPin, Send, Clock, CheckCircle, CreditCard, Building2, QrCode } from 'lucide-react';
 import ScrollReveal from '../components/ScrollReveal';
+
+const FacebookIcon = ({ size = 24, className }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="#1877F2" className={className}>
+    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/>
+  </svg>
+);
+
+const YoutubeIcon = ({ size = 24, className }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="#FF0000" className={className}>
+    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>
+  </svg>
+);
+
+const InstagramIcon = ({ size = 24, className }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="none" className={className}>
+    <rect width="24" height="24" rx="5.33" fill="url(#ig-grad)"/>
+    <path d="M12 7.33A4.67 4.67 0 1016.67 12 4.67 4.67 0 0012 7.33zm0 7.7a3.03 3.03 0 113.03-3.03A3.03 3.03 0 0112 15.03zm3.88-6.15a1.1 1.1 0 11-1.1-1.1 1.1 1.1 0 011.1 1.1z" fill="white"/>
+    <path d="M11.99 4.33c2.5 0 2.8.01 3.79.05a5.16 5.16 0 011.72.32 2.9 2.9 0 011.08.7 2.9 2.9 0 01.7 1.08 5.16 5.16 0 01.32 1.72c.04.99.05 1.29.05 3.79s-.01 2.8-.05 3.79a5.16 5.16 0 01-.32 1.72 2.9 2.9 0 01-.7 1.08 2.9 2.9 0 01-1.08.7 5.16 5.16 0 01-1.72.32c-.99.04-1.29.05-3.79.05s-2.8-.01-3.79-.05a5.16 5.16 0 01-1.72-.32 2.9 2.9 0 01-1.08-.7 2.9 2.9 0 01-.7-1.08 5.16 5.16 0 01-.32-1.72c-.04-.99-.05-1.29-.05-3.79s.01-2.8.05-3.79a5.16 5.16 0 01.32-1.72 2.9 2.9 0 01.7-1.08 2.9 2.9 0 011.08-.7 5.16 5.16 0 011.72-.32c.99-.04 1.29-.05 3.79-.05M12 2.7c-2.54 0-2.86.01-3.86.06A6.8 6.8 0 005.8 3.2a4.53 4.53 0 00-1.63 1.06A4.53 4.53 0 003.1 5.9a6.8 6.8 0 00-.45 2.34C2.6 9.24 2.6 9.56 2.6 12s.01 2.76.06 3.76A6.8 6.8 0 003.1 18.1a4.53 4.53 0 001.06 1.63 4.53 4.53 0 001.63 1.06 6.8 6.8 0 002.34.45c1 .05 1.32.06 3.86.06s2.86-.01 3.86-.06a6.8 6.8 0 002.34-.45 4.53 4.53 0 001.63-1.06 4.53 4.53 0 001.06-1.63 6.8 6.8 0 00.45-2.34c.05-1 .06-1.32.06-3.86s-.01-2.86-.06-3.86a6.8 6.8 0 00-.45-2.34A4.53 4.53 0 0019.8 4.26 4.53 4.53 0 0018.17 3.2a6.8 6.8 0 00-2.34-.45C14.83 2.71 14.51 2.7 12 2.7z" fill="white"/>
+    <defs>
+      <linearGradient id="ig-grad" x1="2" y1="22" x2="22" y2="2" gradientUnits="userSpaceOnUse">
+        <stop stopColor="#f09433"/>
+        <stop offset="0.25" stopColor="#e6683c"/>
+        <stop offset="0.5" stopColor="#dc2743"/>
+        <stop offset="0.75" stopColor="#cc2366"/>
+        <stop offset="1" stopColor="#bc1888"/>
+      </linearGradient>
+    </defs>
+  </svg>
+);
 
 const pageVariants = {
   initial: { opacity: 0 },
@@ -17,9 +46,9 @@ const contactInfo = [
 ];
 
 const socials = [
-  { icon: Facebook, name: 'Facebook', handle: 'Media Tv Mysore', url: 'https://facebook.com/MediaTvMysore' },
-  { icon: Youtube, name: 'YouTube', handle: 'MediaTV Mysore', url: 'https://youtube.com/@MediaTVMysore' },
-  { icon: Instagram, name: 'Instagram', handle: '@Mediatvmys', url: 'https://instagram.com/Mediatvmys' },
+  { icon: FacebookIcon, name: 'Facebook', handle: 'Media Tv Mysore', url: 'https://facebook.com/MediaTvMysore' },
+  { icon: YoutubeIcon, name: 'YouTube', handle: 'MediaTV Mysore', url: 'https://youtube.com/@MediaTVMysore' },
+  { icon: InstagramIcon, name: 'Instagram', handle: '@Mediatvmys', url: 'https://instagram.com/Mediatvmys' },
 ];
 
 const bankDetails = {
@@ -158,8 +187,8 @@ export default function Contact() {
                   <div className="space-y-3">
                     {socials.map((s) => (
                       <a key={s.name} href={s.url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 p-3 rounded-xl hover:bg-white/5 transition-colors group">
-                        <div className="w-10 h-10 rounded-lg bg-brand-400/10 border border-brand-400/20 flex items-center justify-center group-hover:bg-brand-400/20 transition-colors">
-                          <s.icon size={16} className="text-brand-400" />
+                        <div className="w-10 h-10 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
+                          <s.icon size={28} />
                         </div>
                         <div>
                           <p className="text-white/80 text-sm font-medium">{s.name}</p>
