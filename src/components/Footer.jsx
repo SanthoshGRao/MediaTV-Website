@@ -68,7 +68,7 @@ export default function Footer() {
               </div>
             </Link>
             <p className="text-white/50 text-sm leading-relaxed mb-6">
-              One of the best local channels in Mysore District, telecasted
+              One of the best channels in Mysore District, telecasted
               throughout Karnataka in 18+ districts. Purely entertainment &
               news with 20-25 lakh viewers daily.
             </p>

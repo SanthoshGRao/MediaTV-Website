@@ -40,9 +40,9 @@ function ProviderCard({ item, index }) {
       className="relative group h-full"
     >
       <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-brand-400/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 blur-md" />
-      
+
       <div className="relative h-full rounded-xl border border-white/10 bg-dark-600/50 backdrop-blur-md p-3 sm:p-4 transition-all duration-300 group-hover:border-brand-400/30 group-hover:bg-dark-500/80 group-hover:-translate-y-0.5 overflow-hidden flex flex-col justify-between">
-        
+
 
 
         <div className="mb-2">
@@ -66,64 +66,133 @@ function ProviderCard({ item, index }) {
 
 export default function CoverageNetwork() {
   return (
-    <div className="relative w-full max-w-6xl mx-auto px-4 py-8">
-      
-      {/* Header */}
-      <div className="flex flex-col md:flex-row justify-between items-end gap-6 mb-8">
-        <div className="max-w-2xl">
-          <h2 className="text-2xl sm:text-3xl font-heading font-bold text-white mb-3">
-            Extensive Network <span className="text-brand-400">Coverage</span>
-          </h2>
-          <p className="text-white/60 text-sm leading-relaxed">
-            Media TV is available across Karnataka through various leading set-top box providers. Find your local area below to see how you can tune in.
-          </p>
-        </div>
-      </div>
+    <div className="relative w-full max-w-7xl mx-auto px-4 py-8 lg:py-12">
 
-      {/* Grid */}
-      <AnimatePresence mode="popLayout">
-        <motion.div 
-          layout
-          className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3 sm:gap-4"
-        >
-          {coverageData.map((item, index) => (
+      <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-start">
+        {/* Left Side: Creative Image Presentation */}
+        <div className="w-full lg:w-5/12 relative">
+          <div className="sticky top-28 flex justify-center perspective-1000">
             <motion.div
-              key={`${item.area}-${item.provider}`}
-              layout
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              transition={{ duration: 0.2 }}
+              initial={{ opacity: 0, scale: 0.8, rotateY: -15 }}
+              whileInView={{ opacity: 1, scale: 1, rotateY: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
+              className="relative w-full max-w-[450px]"
             >
-              <ProviderCard item={item} index={index} />
+              {/* Image Container */}
+              <motion.div
+                animate={{ y: [0, -12, 0] }}
+                transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+                className="relative p-2 overflow-visible group"
+              >
+                <div className="relative z-10">
+                  <img
+                    src={`${import.meta.env.BASE_URL}images/coverage-map.png`}
+                    alt="Karnataka Coverage Map"
+                    className="w-full h-auto object-contain drop-shadow-[0_15px_30px_rgba(0,0,0,0.4)] transition-transform duration-700 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                </div>
+              </motion.div>
             </motion.div>
-          ))}
-        </motion.div>
-      </AnimatePresence>
+          </div>
+        </div>
 
-      {/* Footer stats */}
-      <div className="mt-12 flex flex-wrap items-center justify-center gap-x-8 gap-y-4 pt-8 border-t border-white/5">
-        <div className="flex items-center gap-3">
-          <div className="text-2xl font-bold text-white">{coverageData.length}</div>
-          <div className="text-[10px] text-white/50 font-accent uppercase tracking-widest leading-tight">Supported<br/>Regions</div>
-        </div>
-        <div className="w-px h-8 bg-white/10 hidden sm:block" />
-        <div className="flex items-center gap-3">
-          <div className="text-2xl font-bold text-white">
-            {new Set(coverageData.map(d => d.provider.toLowerCase())).size}
+        {/* Right Side: Content and Grid */}
+        <div className="w-full lg:w-7/12 flex flex-col">
+          {/* Header */}
+          <div className="mb-10 text-center lg:text-left">
+            {/* <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-400/10 border border-brand-400/20 text-brand-400 text-xs font-accent tracking-widest uppercase mb-6"
+            >
+              <Tv size={14} />
+            <span>Reach & Network</span>
+            </motion.div> */}
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
+              className="text-3xl sm:text-4xl lg:text-5xl font-heading font-bold text-white mb-5 leading-tight"
+            >
+              Extensive Network <br className="hidden lg:block" /><span className="text-brand-400">Coverage</span>
+            </motion.h2>
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.2 }}
+              className="text-white/60 text-base leading-relaxed max-w-xl mx-auto lg:mx-0"
+            >
+              Media TV is available across Karnataka through various leading set-top box providers. Find your local area below to see how you can tune in and stay connected.
+            </motion.p>
           </div>
-          <div className="text-[10px] text-white/50 font-accent uppercase tracking-widest leading-tight">Network<br/>Partners</div>
-        </div>
-        <div className="w-px h-8 bg-white/10 hidden sm:block" />
-        <div className="flex items-center gap-3">
-          <div className="flex -space-x-2">
-            {[1,2,3].map(i => (
-              <div key={i} className={`w-8 h-8 rounded-full border-2 border-dark-900 bg-dark-600 flex items-center justify-center text-[10px] font-bold ${i===1?'text-brand-400':i===2?'text-emerald-400':'text-blue-400'}`}>
-                STB
+
+          {/* Grid */}
+          <div className="relative">
+            <div className="absolute inset-0 bg-gradient-to-b from-brand-400/5 via-transparent to-transparent rounded-3xl blur-2xl -z-10" />
+            <AnimatePresence mode="popLayout">
+              <motion.div
+                layout
+                className="grid grid-cols-2 sm:grid-cols-3 gap-3 sm:gap-4 relative z-10"
+              >
+                {coverageData.map((item, index) => (
+                  <motion.div
+                    key={`${item.area}-${item.provider}`}
+                    layout
+                    initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                    whileInView={{ opacity: 1, scale: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.3, delay: index * 0.02 }}
+                  >
+                    <ProviderCard item={item} index={index} />
+                  </motion.div>
+                ))}
+              </motion.div>
+            </AnimatePresence>
+          </div>
+
+          {/* Footer stats */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="mt-12 flex flex-wrap items-center justify-center lg:justify-start gap-x-8 gap-y-6 pt-8 border-t border-white/10"
+          >
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-2xl bg-dark-600 border border-white/5 flex items-center justify-center shadow-inner">
+                <span className="text-2xl font-heading font-bold gradient-text">{coverageData.length}</span>
               </div>
-            ))}
-          </div>
-          <div className="text-[10px] text-white/50 font-accent uppercase tracking-widest leading-tight">Wide<br/>Compatibility</div>
+              <div className="text-[10px] text-white/50 font-accent uppercase tracking-widest leading-relaxed">Supported<br />Regions</div>
+            </div>
+
+            <div className="w-px h-10 bg-white/10 hidden sm:block" />
+
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 rounded-2xl bg-dark-600 border border-white/5 flex items-center justify-center shadow-inner">
+                <span className="text-2xl font-heading font-bold gradient-text">
+                  {new Set(coverageData.map(d => d.provider.toLowerCase())).size}+
+                </span>
+              </div>
+              <div className="text-[10px] text-white/50 font-accent uppercase tracking-widest leading-relaxed">Network<br />Partners</div>
+            </div>
+
+            <div className="w-px h-10 bg-white/10 hidden lg:block" />
+
+            <div className="flex items-center gap-4 w-full lg:w-auto justify-center lg:justify-start">
+              <div className="flex -space-x-2">
+                {[1, 2, 3].map(i => (
+                  <div key={i} className={`w-10 h-10 rounded-full border-[3px] border-dark-900 bg-dark-600 flex items-center justify-center text-[9px] font-bold shadow-lg ${i === 1 ? 'text-brand-400' : i === 2 ? 'text-emerald-400' : 'text-blue-400'}`}>
+                    STB
+                  </div>
+                ))}
+              </div>
+              <div className="text-[10px] text-white/50 font-accent uppercase tracking-widest leading-relaxed">Wide<br />Compatibility</div>
+            </div>
+          </motion.div>
         </div>
       </div>
     </div>

@@ -146,15 +146,15 @@ export default function Navbar() {
               })}
             </div>
 
-            {/* CTA Button (Desktop) */}
+            {/* Live Badge (Desktop) */}
             <div className="hidden md:flex items-center gap-4">
-              <Link
-                to="/advertise"
-                className="btn-gold text-sm px-5 py-2.5 flex items-center gap-2"
-              >
-                Advertise Now
-                <ChevronRight size={14} />
-              </Link>
+              <div className="flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-brand-400/10 border border-brand-400/20 backdrop-blur-md cursor-pointer hover:bg-brand-400/20 transition-all duration-300 group">
+                <span className="relative flex h-2.5 w-2.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-400 opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-brand-500"></span>
+                </span>
+                <span className="text-brand-400 font-heading font-bold text-sm tracking-widest uppercase mt-px group-hover:text-brand-300 transition-colors">Live TV</span>
+              </div>
             </div>
 
             {/* Mobile Menu Toggle */}
@@ -222,14 +222,15 @@ export default function Navbar() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 }}
-                  className="mt-8"
+                  className="mt-8 flex justify-center"
                 >
-                  <Link
-                    to="/advertise"
-                    className="btn-gold w-full text-center block text-sm"
-                  >
-                    Advertise With Us
-                  </Link>
+                  <div className="flex items-center gap-2.5 px-6 py-3 rounded-full bg-brand-400/10 border border-brand-400/20 backdrop-blur-md w-full justify-center">
+                    <span className="relative flex h-2.5 w-2.5">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-brand-400 opacity-75"></span>
+                      <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-brand-500"></span>
+                    </span>
+                    <span className="text-brand-400 font-heading font-bold text-sm tracking-widest uppercase mt-px">Watch Live</span>
+                  </div>
                 </motion.div>
 
                 <div className="mt-auto pb-8">

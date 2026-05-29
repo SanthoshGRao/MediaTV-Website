@@ -108,7 +108,7 @@ function HeroSection() {
           transition={{ delay: 0.4, duration: 0.6 }}
           className="text-white/60 text-base sm:text-lg max-w-2xl mx-auto mb-10 leading-relaxed"
         >
-          Bringing you the best entertainment, news, and local content from the heart of Mysore
+          Bringing you the best entertainment, news, and content from the heart of Mysore
           to over 20 lakh viewers across 18+ districts of Karnataka.
         </motion.p>
 

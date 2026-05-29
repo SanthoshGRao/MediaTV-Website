@@ -176,7 +176,7 @@ export default function Contact() {
       </section>
 
       {/* Payment Information */}
-      <section className="py-16 sm:py-20 bg-gradient-dark">
+      {/*<section className="py-16 sm:py-20 bg-gradient-dark">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <ScrollReveal>
             <div className="text-center mb-14">
@@ -190,7 +190,7 @@ export default function Contact() {
           </ScrollReveal>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {/* Bank Details */}
+            
             <ScrollReveal direction="left">
               <div className="glass-card p-8 h-full">
                 <div className="flex items-center gap-3 mb-6">
@@ -234,7 +234,6 @@ export default function Contact() {
               </div>
             </ScrollReveal>
 
-            {/* QR Code */}
             <ScrollReveal direction="right">
               <div className="glass-card p-8 h-full flex flex-col items-center justify-center text-center">
                 <div className="flex items-center gap-3 mb-6">
@@ -262,7 +261,7 @@ export default function Contact() {
             </ScrollReveal>
           </div>
         </div>
-      </section>
+      </section>}*/}
     </motion.div>
   );
 }
