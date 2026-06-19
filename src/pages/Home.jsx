@@ -14,22 +14,12 @@ const pageVariants = {
 };
 
 const stats = [
-  { value: '20L+', label: 'Daily Viewers', icon: Users },
+  { value: '50L+', label: 'Daily Viewers', icon: Users },
   { value: '18+', label: 'Districts', icon: MapPin },
   { value: '18+', label: 'Hours Daily', icon: Clock },
   { value: '15+', label: 'Programs', icon: Tv },
 ];
 
-const heroBubbles = [
-  { left: '8%', size: 12, delay: '0s', duration: '8s' },
-  { left: '16%', size: 18, delay: '2s', duration: '10s' },
-  { left: '28%', size: 10, delay: '1s', duration: '9s' },
-  { left: '40%', size: 22, delay: '3s', duration: '12s' },
-  { left: '54%', size: 14, delay: '0.5s', duration: '9s' },
-  { left: '66%', size: 20, delay: '2.5s', duration: '11s' },
-  { left: '78%', size: 12, delay: '1.5s', duration: '8.5s' },
-  { left: '90%', size: 16, delay: '3.2s', duration: '10.5s' },
-];
 
 const careerIcons = { megaphone: Megaphone, mic: Mic, calendar: Calendar, newspaper: Newspaper };
 
@@ -40,32 +30,17 @@ function HeroSection() {
 
   return (
     <section ref={ref} className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Lightweight CSS-only Background */}
-      <div className="absolute inset-0 bg-dark-600">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(245,166,35,0.06)_0%,_transparent_60%)]" />
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[800px] bg-[radial-gradient(circle,_rgba(245,166,35,0.04)_0%,_transparent_70%)]" />
-        <div className="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true">
-          {heroBubbles.map((bubble, index) => (
-            <span
-              key={index}
-              className="hero-evap-dot"
-              style={{
-                left: bubble.left,
-                width: `${bubble.size}px`,
-                height: `${bubble.size}px`,
-                animationDelay: bubble.delay,
-                animationDuration: bubble.duration,
-              }}
-            />
-          ))}
-        </div>
-        {/* Grid pattern */}
-        <div className="absolute inset-0 opacity-[0.025]" style={{ backgroundImage: 'linear-gradient(rgba(245,166,35,1) 1px, transparent 1px), linear-gradient(90deg, rgba(245,166,35,1) 1px, transparent 1px)', backgroundSize: '60px 60px' }} />
-        {/* Diagonal lines */}
-        <svg className="absolute inset-0 w-full h-full opacity-[0.03]" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-          <line x1="0" y1="0" x2="100%" y2="100%" stroke="#F5A623" strokeWidth="0.5" />
-          <line x1="100%" y1="0" x2="0" y2="100%" stroke="#F5A623" strokeWidth="0.5" />
-        </svg>
+      {/* Video Background */}
+      <div className="absolute inset-0 overflow-hidden bg-dark-600">
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover opacity-40"
+        >
+          <source src={`${import.meta.env.BASE_URL}download_20260619_130809_0000 (1).mp4`} type="video/mp4" />
+        </video>
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-dark-600" />
       </div>
 
@@ -108,8 +83,8 @@ function HeroSection() {
           transition={{ delay: 0.4, duration: 0.6 }}
           className="text-white/60 text-base sm:text-lg max-w-2xl mx-auto mb-10 leading-relaxed"
         >
-          Bringing you the best entertainment, news, and content from the heart of Mysore
-          to over 20 lakh viewers across 18+ districts of Karnataka.
+          Media TV is one of the best channel in Mysuru District and telecasted Mysore Karnataka in set off box. 
+          Media TV is basic purely entertainment & news channel & we have best viewer of 50 lakhs per day average throughout Mysore another places in Karnataka.
         </motion.p>
 
         <motion.div
@@ -233,7 +208,7 @@ function AdvertiseCTA() {
           </h2>
           <div className="gold-divider mx-auto mt-4" />
           <p className="section-subtitle mx-auto mt-6 mb-10">
-            Reach over 20 lakh daily viewers across 18+ districts of Karnataka.
+            Reach over 50 lakh daily viewers across 18+ districts of Karnataka.
             Affordable ad packages starting from just ₹3,500.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">

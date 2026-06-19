@@ -31,7 +31,7 @@ const pageVariants = {
 };
 
 const whyAdvertise = [
-  { icon: Users, title: '20 Lakh+ Daily Viewers', desc: 'Massive daily reach across Karnataka ensures your brand gets maximum exposure.' },
+  { icon: Users, title: '50 Lakh+ Daily Viewers', desc: 'Massive daily reach across Karnataka ensures your brand gets maximum exposure.' },
   { icon: MapPin, title: '18+ Districts Coverage', desc: 'From Mysore to Bidar — your ad reaches audiences across all of Karnataka.' },
   { icon: Clock, title: '18+ Hours Broadcasting', desc: 'Round-the-clock exposure with ads running during peak and off-peak hours.' },
   { icon: TrendingUp, title: 'Proven ROI', desc: 'Our advertisers report up to 40% increase in business within the first month.' },
@@ -346,8 +346,8 @@ export default function Advertise() {
                 key={tariff.id}
                 onClick={() => { pauseAndResume(); goTo(i); }}
                 className={`h-1 rounded-full transition-all duration-300 ${activeIndex === i
-                    ? 'w-8 bg-gradient-to-r from-brand-500/70 to-brand-400/50 shadow-sm shadow-brand-900/40'
-                    : 'w-1.5 bg-white/18 hover:bg-brand-400/30'
+                  ? 'w-8 bg-gradient-to-r from-brand-500/70 to-brand-400/50 shadow-sm shadow-brand-900/40'
+                  : 'w-1.5 bg-white/18 hover:bg-brand-400/30'
                   }`}
                 aria-label={`Show ${tariff.type}`}
                 aria-current={activeIndex === i ? 'true' : undefined}

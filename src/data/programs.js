@@ -103,7 +103,7 @@ export const programs = [
     name: "Sthaliya Sudhigalu",
     time: "8:00 PM – 8:30 PM",
     category: "News",
-    description: "Comprehensive local news coverage — Saliya Sudigallu brings you the latest from Mysore and Karnataka every evening.",
+    description: "Comprehensive news coverage — Saliya Sudigallu brings you the latest from Mysore and Karnataka every evening.",
     icon: "landmark",
     featured: true,
   },
@@ -258,7 +258,7 @@ export const careerOpenings = [
     id: 4,
     title: "District Reporters",
     type: "Freelance / Part-time",
-    description: "Report local news from your district. We need correspondents in all 30+ districts of Karnataka to strengthen our coverage network.",
+    description: "Report news from your district. We need correspondents in all 30+ districts of Karnataka to strengthen our coverage network.",
     icon: "newspaper",
   },
 ];

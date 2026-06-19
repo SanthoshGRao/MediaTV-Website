@@ -26,7 +26,7 @@ const milestones = [
   { year: '2019', event: 'Expanded coverage to 5 districts across Karnataka via multiple set-top box providers.' },
   { year: '2021', event: 'Reached 10+ districts with partnerships including VK Digital, Hathway, NXT Digital.' },
   { year: '2023', event: 'Launched the Media TV mobile app on Google Play Store for live streaming.' },
-  { year: '2025', event: 'Surpassed 20 lakh daily viewers — became one of Karnataka\'s most-watched channels.' },
+  { year: '2025', event: 'Surpassed 50 lakh daily viewers — became one of Karnataka\'s most-watched channels.' },
   { year: '2026', event: 'Expanded to 18+ districts across Karnataka. Launched the Business Icon Award ceremony.' },
 ];
 
@@ -183,7 +183,7 @@ export default function About() {
                   <p>
                     With a vision to bring quality entertainment and truthful journalism to every household in Karnataka,
                     Mr. Nanjundaswamy established Media TV in Mysore. Today, it has grown to become
-                    one of the most-watched regional channels, reaching over <span className="text-white/90 font-medium">20 lakh daily viewers across 18+ districts.</span>
+                    one of the most-watched regional channels, reaching over <span className="text-white/90 font-medium">50 lakh daily viewers across 18+ districts.</span>
                   </p>
                   <p>
                     Under his leadership, Media TV has pioneered community-first broadcasting — featuring interactive
@@ -200,7 +200,7 @@ export default function About() {
                     <p className="text-white/40 text-[10px] mt-1 uppercase tracking-wider">Districts</p>
                   </div>
                   <div className="glass-card p-3 text-center">
-                    <p className="font-heading font-bold text-xl sm:text-2xl gradient-text">20L+</p>
+                    <p className="font-heading font-bold text-xl sm:text-2xl gradient-text">50L+</p>
                     <p className="text-white/40 text-[10px] mt-1 uppercase tracking-wider">Viewers</p>
                   </div>
                   <div className="glass-card p-3 text-center">
