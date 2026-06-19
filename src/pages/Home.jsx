@@ -30,26 +30,30 @@ function HeroSection() {
 
   return (
     <section ref={ref} className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Video Background */}
-      <div className="absolute inset-0 overflow-hidden bg-dark-600">
+      {/* Video Background — always atmospheric */}
+      <div className="absolute inset-0 bg-dark-600">
         <video
           autoPlay
           loop
           muted
           playsInline
-          className="absolute inset-0 w-full h-full object-cover opacity-40"
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{ opacity: 0.3 }}
         >
           <source src={`${import.meta.env.BASE_URL}download_20260619_130809_0000 (1).mp4`} type="video/mp4" />
         </video>
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-dark-600" />
+        {/* Gradient overlays for depth and readability */}
+        <div className="absolute inset-0 bg-gradient-to-b from-dark-600/50 via-dark-600/40 to-dark-600" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_transparent_30%,_rgba(10,10,14,0.6)_100%)]" />
       </div>
 
-      {/* Content */}
+      {/* Content — staggered cascade */}
       <motion.div style={{ opacity }} className="relative z-10 text-center px-4 max-w-5xl mx-auto">
+        {/* Logo */}
         <motion.div
           initial={{ scale: 0.5, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          transition={{ duration: 0.8, ease: 'easeOut' }}
+          transition={{ delay: 10.3, duration: 0.9, ease: [0.34, 1.56, 0.64, 1] }}
           className="mb-8 inline-block"
         >
           <div id="home-hero-logo" className="relative w-32 h-32 sm:w-40 sm:h-40 mx-auto rounded-2xl overflow-hidden ring-4 ring-brand-400/30 shadow-2xl shadow-brand-400/20">
@@ -64,33 +68,41 @@ function HeroSection() {
           </div>
         </motion.div>
 
+        {/* Title */}
         <motion.h1
-          initial={{ y: 30, opacity: 0 }}
+          initial={{ y: 40, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.3, duration: 0.6 }}
+          transition={{ delay: 10.7, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           className="font-heading font-bold text-4xl sm:text-5xl md:text-7xl mb-6 leading-tight"
         >
           <span className="gradient-text-light">MEDIA TV</span>
           <br />
-          <span className="text-white/90 text-2xl sm:text-3xl md:text-4xl font-light">
+          <motion.span
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 11.1, duration: 0.7, ease: 'easeOut' }}
+            className="text-white/90 text-2xl sm:text-3xl md:text-4xl font-light inline-block"
+          >
             Karnataka's Premier Channel
-          </span>
+          </motion.span>
         </motion.h1>
 
+        {/* Description */}
         <motion.p
           initial={{ y: 30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.4, duration: 0.6 }}
+          transition={{ delay: 11.5, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           className="text-white/60 text-base sm:text-lg max-w-2xl mx-auto mb-10 leading-relaxed"
         >
           Media TV is one of the best channel in Mysuru District and telecasted Mysore Karnataka in set off box. 
           Media TV is basic purely entertainment & news channel & we have best viewer of 50 lakhs per day average throughout Mysore another places in Karnataka.
         </motion.p>
 
+        {/* Buttons */}
         <motion.div
           initial={{ y: 30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ delay: 0.5, duration: 0.6 }}
+          transition={{ delay: 11.9, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
           className="flex flex-col sm:flex-row items-center justify-center gap-4"
         >
           <Link to="/programs" className="btn-gold text-base px-8 py-3.5 flex items-center gap-2">
